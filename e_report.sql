@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2024 at 02:49 PM
+-- Generation Time: Nov 28, 2024 at 03:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `e_report`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `complaints`
+--
+
+CREATE TABLE `complaints` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `status` enum('pending','in progress','resolved') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -61,6 +76,13 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
 --
 
 --
+-- Indexes for table `complaints`
+--
+ALTER TABLE `complaints`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `reports`
 --
 ALTER TABLE `reports`
@@ -78,6 +100,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `complaints`
+--
+ALTER TABLE `complaints`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
@@ -92,6 +120,12 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `complaints`
+--
+ALTER TABLE `complaints`
+  ADD CONSTRAINT `complaints_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `reports`
